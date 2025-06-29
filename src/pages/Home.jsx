@@ -3,7 +3,10 @@ import Hero from "../components/Hero";
 import AboutUs from "../components/AboutUs";
 import CityList from "../components/CityList";
 import BecomeGuide from "../components/BecomeGuide";
+import ContactModal from "../components/ContactModal";
 import Footer from "../components/Footer";
+import { supabase } from "../supabaseClient";
+
 import { FaSearch } from "react-icons/fa";
 
 const localGuides = [
@@ -17,6 +20,12 @@ const localGuides = [
 export default function Home() {
   const [searchCity, setSearchCity] = useState("");
   const [allGuides, setAllGuides] = useState(localGuides);
+const [showContact, setShowContact] = useState(false);
+
+useEffect(() => {
+  window.revealContactForm = () => setShowContact(true);
+  return () => delete window.revealContactForm; // clean up
+}, []);
 
    const scrollToContact = () => {
     setShowContact(true); // reveal contact section
@@ -26,14 +35,17 @@ export default function Home() {
   };
 
   useEffect(() => {
-    async function fetchGuides() {
-      try {
-      const res = await fetch("https://sheetdb.io/api/v1/n66tdw0bhy06q");
-      const sheetGuides = await res.json();
+  async function fetchGuides() {
+    try {
+      const { data: sheetGuides, error } = await supabase
+        .from("guides")
+        .select("*");
+
+      if (error) throw error;
 
       const formattedGuides = sheetGuides.map((g, index) => {
         const baseCity = g.city.toLowerCase().replace(/\s/g, "-");
-        const imageIndex = (index % 3) + 1; // to rotate delhi-1.jpg, delhi-2.jpg, etc.
+        const imageIndex = (index % 3) + 1; 
         const image = `/${baseCity}-${imageIndex}.jpg`;
 
         return {
@@ -46,12 +58,12 @@ export default function Home() {
 
       setAllGuides([...localGuides, ...formattedGuides]);
     } catch (error) {
-      console.error("Failed to fetch guides from SheetDB:", error);
+      console.error("Failed to fetch guides from Supabase:", error);
     }
-    }
+  }
 
-    fetchGuides();
-  }, []);
+  fetchGuides();
+}, []);
 
   const uniqueCities = [...new Set(allGuides.map((g) => g.city))];
 
@@ -106,6 +118,7 @@ export default function Home() {
       </section>
 
       <BecomeGuide />
+      <ContactModal show={showContact} onClose={() => setShowContact(false)} />
       <Footer />
     </div>
   );

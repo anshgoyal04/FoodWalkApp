@@ -1,76 +1,64 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { supabase } from "../supabaseClient";
 
 export default function BecomeGuide() {
   const [showForm, setShowForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [form, setForm] = useState({
-    name: "", city: "", phone: "", email: "", address: "",
+    name: "",
+    city: "",
+    phone: "",
+    email: "",
+    address: "",
+    gender: "",
+    instagram: "",
+    youtube: "",
   });
 
-  const [contact, setContact] = useState({ name: "", email: "", message: "" });
-  const [contactStatus, setContactStatus] = useState("");
-  const [showContact, setShowContact] = useState(false); // ⬅️ new state
-  const contactRef = useRef(null); // ⬅️ reference to contact section
-
-  // 👇 Call this externally when "Contact" is clicked
-  window.revealContactForm = () => {
-    setShowContact(true);
-    setTimeout(() => {
-      contactRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-  };
+  const inputClass =
+    "w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (["name", "city", "phone", "email", "address"].includes(name)) {
-      setForm({ ...form, [name]: value });
-    } else {
-      setContact({ ...contact, [name]: value });
-    }
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      const response = await fetch("https://sheetdb.io/api/v1/n66tdw0bhy06q", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: form }),
-      });
-      if (response.ok) {
-        alert("Thank you! We’ll reach out soon.");
-        setForm({ name: "", city: "", phone: "", email: "", address: "" });
-        setShowForm(false);
-      } else throw new Error("Error submitting form");
-    } catch {
-      alert("Something went wrong.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  e.preventDefault();
+  setIsSubmitting(true);
 
-  const handleContactSubmit = async (e) => {
-    e.preventDefault();
-    setContactStatus("submitting");
-    try {
-      const response = await fetch("https://sheetdb.io/api/v1/n66tdw0bhy06q", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: contact }),
-      });
-      if (response.ok) {
-        setContactStatus("success");
-        setContact({ name: "", email: "", message: "" });
-      } else throw new Error();
-    } catch {
-      setContactStatus("error");
+  try {
+    const { data, error } = await supabase
+      .from("guides")
+      .insert([form]);
+
+    if (error) {
+      throw error;
     }
-  };
+
+    alert("Thank you! We’ll reach out soon.");
+    setForm({
+      name: "",
+      city: "",
+      phone: "",
+      email: "",
+      address: "",
+      gender: "",
+      instagram: "",
+      youtube: "",
+    });
+    setShowForm(false);
+  } catch (error) {
+    console.error(error);
+    alert("Something went wrong.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <section className="w-full px-4 py-16 bg-gradient-to-r from-orange-100 via-orange-50 to-yellow-50 -mt-6">
-      {/* Become Guide Section */}
       <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-md rounded-xl shadow-xl p-8 text-center shadow-orange-100">
         <h2 className="text-4xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 drop-shadow-md">
           Are You a Local Food Guide?
@@ -87,19 +75,110 @@ export default function BecomeGuide() {
             Register Now
           </button>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4 text-left">
-            {["name", "city", "phone", "email", "address"].map((field) => (
-              <input
-                key={field}
-                type={field === "email" ? "email" : "text"}
-                name={field}
-                value={form[field]}
-                onChange={handleChange}
-                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                className="w-full px-4 py-2 border border-gray-300 rounded"
-                required
-              />
-            ))}
+          <form onSubmit={handleSubmit} className="space-y-6 text-left">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Left Column */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">Name</label>
+                  <input
+                    name="name"
+                    placeholder="Enter your full name"
+                    value={form.name}
+                    onChange={handleChange}
+                    required
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">City</label>
+                  <input
+                    name="city"
+                    placeholder="Which city do you operate in?"
+                    value={form.city}
+                    onChange={handleChange}
+                    required
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">Phone</label>
+                  <input
+                    name="phone"
+                    placeholder="e.g. 919876543210"
+                    value={form.phone}
+                    onChange={handleChange}
+                    required
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">Gender</label>
+                  <select
+                    name="gender"
+                    value={form.gender}
+                    onChange={handleChange}
+                    required
+                    className={`${inputClass} bg-white`}
+                  >
+                    <option value="">Select gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Right Column */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">Email</label>
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="e.g. you@example.com"
+                    value={form.email}
+                    onChange={handleChange}
+                    required
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">Meeting Address</label>
+                  <input
+                    name="address"
+                    placeholder="Where should visitors meet you?"
+                    value={form.address}
+                    onChange={handleChange}
+                    required
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">Instagram</label>
+                  <input
+                    name="instagram"
+                    type="url"
+                    placeholder="https://instagram.com/yourhandle"
+                    value={form.instagram}
+                    onChange={handleChange}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">YouTube</label>
+                  <input
+                    name="youtube"
+                    type="url"
+                    placeholder="https://youtube.com/yourchannel"
+                    value={form.youtube}
+                    onChange={handleChange}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+            </div>
+
             <div className="flex gap-4 justify-end pt-2">
               <button
                 type="button"
@@ -112,7 +191,9 @@ export default function BecomeGuide() {
                 type="submit"
                 disabled={isSubmitting}
                 className={`px-6 py-2 text-white font-semibold rounded transition ${
-                  isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                  isSubmitting
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-orange-500 hover:bg-orange-600"
                 }`}
               >
                 {isSubmitting ? "Submitting..." : "Submit"}
@@ -121,64 +202,6 @@ export default function BecomeGuide() {
           </form>
         )}
       </div>
-
-      {/* Contact Us Section */}
-      {showContact && (
-        <div
-          ref={contactRef}
-          className="max-w-2xl mx-auto mt-20 bg-white/90 backdrop-blur-md rounded-xl shadow-xl p-8 text-center shadow-yellow-100"
-        >
-          <h2 className="text-4xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 drop-shadow-md">
-            Contact Us
-          </h2>
-          <p className="text-gray-700 mb-6 text-lg">
-            Have questions or suggestions? We'd love to hear from you!
-          </p>
-
-          <form onSubmit={handleContactSubmit} className="space-y-4 text-left">
-            <input
-              type="text"
-              name="name"
-              value={contact.name}
-              onChange={handleChange}
-              placeholder="Your Name"
-              className="w-full px-4 py-2 border border-gray-300 rounded"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              value={contact.email}
-              onChange={handleChange}
-              placeholder="Your Email"
-              className="w-full px-4 py-2 border border-gray-300 rounded"
-              required
-            />
-            <textarea
-              name="message"
-              value={contact.message}
-              onChange={handleChange}
-              placeholder="Your Message"
-              className="w-full px-4 py-2 border border-gray-300 rounded h-32"
-              required
-            ></textarea>
-
-            <button
-              type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-semibold transition"
-            >
-              Send Message
-            </button>
-
-            {contactStatus === "success" && (
-              <p className="text-green-600 mt-2">Message sent successfully!</p>
-            )}
-            {contactStatus === "error" && (
-              <p className="text-red-600 mt-2">Failed to send message. Try again.</p>
-            )}
-          </form>
-        </div>
-      )}
     </section>
   );
 }
