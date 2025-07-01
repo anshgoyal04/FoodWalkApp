@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
     >
       <h1 className="text-4xl font-bold mb-6 text-orange-600 border-b pb-2">Privacy Policy</h1>
       <p className="mb-4 leading-relaxed">
-        At <strong>FoodWalk India</strong>, we value your privacy and are committed to safeguarding the information you share with us.
+        At <strong>BookMyFoodwalk</strong>, we value your privacy and are committed to safeguarding the information you share with us.
       </p>
 
       <h2 className="text-2xl font-semibold mt-6 mb-2 text-gray-700">Information We Collect</h2>

@@ -4,9 +4,9 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 
 const faqData = [
   {
-    question: "What is FoodWalk India?",
+    question: "What is BookMyFoodwalk?",
     answer:
-      "FoodWalk India connects tourists with local food guides for unique and authentic street food tours in Indian cities.",
+      "BookMyFoodwalk connects tourists with local food guides for unique and authentic street food tours in Indian cities.",
   },
   {
     question: "How do I become a food guide?",

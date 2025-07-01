@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-10 border-b border-gray-700 pb-10 text-center md:text-left">
           {/* Left: About */}
           <div>
-            <h2 className="text-2xl font-bold text-white mb-3">FoodWalk India</h2>
+            <h2 className="text-2xl font-bold text-white mb-3">BookMyFoodWalk</h2>
             <p className="text-sm text-gray-400 leading-relaxed">
               Discover India's rich street food culture with expert local guides.
               Join our walking tours and taste the authentic flavors of each city.
@@ -87,7 +87,7 @@ export default function Footer() {
             <Link to="/terms" className="hover:text-orange-400 transition">Terms & Conditions</Link>
 
           </div>
-          <p>&copy; {new Date().getFullYear()} FoodWalk India. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} BookMyFoodWalk. All rights reserved.</p>
         </div>
       </div>
     </footer>

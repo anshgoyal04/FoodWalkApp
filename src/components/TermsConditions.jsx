@@ -12,7 +12,7 @@ export default function TermsConditions() {
       <h1 className="text-4xl font-bold mb-6 text-orange-600 border-b pb-2">Terms & Conditions</h1>
 
       <p className="mb-4 leading-relaxed">
-        By using <strong>FoodWalk India</strong>, you agree to the terms outlined below. Please read them carefully before using our services.
+        By using <strong>BookMyFoodwalk</strong>, you agree to the terms outlined below. Please read them carefully before using our services.
       </p>
 
       <h2 className="text-2xl font-semibold mt-6 mb-2 text-gray-700">Website Use</h2>
@@ -29,7 +29,7 @@ export default function TermsConditions() {
 
       <h2 className="text-2xl font-semibold mt-6 mb-2 text-gray-700">Limitation of Liability</h2>
       <p className="text-gray-600 mb-4">
-        FoodWalk India is not liable for any issues or disputes that arise from guide interactions. Please verify credentials independently.
+        BookMyFoodwalk is not liable for any issues or disputes that arise from guide interactions. Please verify credentials independently.
       </p>
 
       <p className="text-sm text-gray-500 mt-8">Last updated: {new Date().toLocaleDateString()}</p>
