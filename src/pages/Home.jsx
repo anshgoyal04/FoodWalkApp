@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import Hero from "../components/Hero";
+import { useEffect, useState } from "react";
 import AboutUs from "../components/AboutUs";
-import CityList from "../components/CityList";
 import BecomeGuide from "../components/BecomeGuide";
+import CityList from "../components/CityList";
 import ContactModal from "../components/ContactModal";
 import Footer from "../components/Footer";
+import Hero from "../components/Hero";
 import { supabase } from "../supabaseClient";
 
 import { FaSearch } from "react-icons/fa";
@@ -39,7 +39,8 @@ useEffect(() => {
     try {
       const { data: sheetGuides, error } = await supabase
         .from("guides")
-        .select("*");
+        .select("*")
+        .eq("status", "verified");
 
       if (error) throw error;
 
@@ -64,6 +65,7 @@ useEffect(() => {
 
   fetchGuides();
 }, []);
+
 
   const uniqueCities = [...new Set(allGuides.map((g) => g.city))];
 

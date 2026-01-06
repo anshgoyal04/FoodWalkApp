@@ -1,9 +1,10 @@
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import FaqPage from "./pages/FaqPage";
-import GuideDetail from './pages/GuideDetail';
+import { Route, Routes } from "react-router-dom";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsConditions from "./components/TermsConditions";
+import BecomeGuidePage from "./pages/BecomeGuidePage";
+import FaqPage from "./pages/FaqPage";
+import GuideDetail from './pages/GuideDetail';
+import Home from "./pages/Home";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/terms" element={<TermsConditions />} />
       <Route path="/faq" element={<FaqPage />} />
       <Route path="/guide/:name" element={<GuideDetail />} />
+      <Route path="/become-guide" element={<BecomeGuidePage />} />
     </Routes>
   );
 }

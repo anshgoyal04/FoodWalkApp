@@ -3,9 +3,13 @@ import { FiMenu, FiX } from "react-icons/fi";
 
 export default function Hero() {
   const [menuOpen, setMenuOpen] = useState(false);
-
+const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     document.documentElement.style.scrollBehavior = "smooth";
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const handleContactClick = (e) => {
@@ -35,7 +39,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black bg-opacity-60 z-10" />
 
       {/* Navbar */}
-      <nav className="absolute top-0 left-0 w-full z-30 bg-transparent backdrop-blur-md">
+      <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${scrolled ? "bg-white/95 text-gray-800 shadow-md" : "bg-transparent text-white"}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
           {/* Logo */}
           <div className="flex items-center gap-3">
@@ -50,7 +54,7 @@ export default function Hero() {
           </div>
 
           {/* Desktop Menu */}
-          <ul className="hidden md:flex items-center gap-8 text-white font-medium">
+          <ul className={`hidden md:flex items-center gap-8 font-medium ${scrolled ? "text-gray-800" : "text-white"}`}>
             {navItems.map(({ label, href }) => (
               <li key={label}>
                 <a
@@ -75,9 +79,9 @@ export default function Hero() {
 
           {/* Hamburger */}
           <button
-            className="md:hidden text-white text-2xl"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
+            className={`md:hidden text-2xl ${scrolled ? "text-gray-800" : "text-white"}`}
+             onClick={() => setMenuOpen(!menuOpen)}
+           >
             {menuOpen ? <FiX /> : <FiMenu />}
           </button>
         </div>
