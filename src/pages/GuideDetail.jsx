@@ -94,7 +94,7 @@ useEffect(() => {
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-white py-16 px-4">
 <div
-  className="absolute inset-0 opacity-[0.40] pointer-events-none"
+  className="absolute inset-0 opacity-[0.60] pointer-events-none"
   style={{
     backgroundImage:
       "url('https://www.transparenttextures.com/patterns/food.png')",
