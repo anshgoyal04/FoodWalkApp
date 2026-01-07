@@ -1,28 +1,41 @@
-// ...existing code...
+import { useNavigate } from "react-router-dom";
+
 export default function AboutUs() {
+  const navigate = useNavigate();
+
   return (
     <section id="about" className="py-20 bg-gradient-to-b from-orange-50 to-white font-sans">
       <div className="max-w-6xl mx-auto px-6">
         {/* Horizontal flex layout (keeps image/card size) */}
-        <div className="flex flex-row items-start gap-14 md:gap-20 lg:gap-28 overflow-x-auto scrollbar-hide">
+        <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-20">
           {/* Left: Text / Messaging (fixed comfortable width) */}
-          <div className="flex-shrink-0 w-[560px] space-y-6 text-left">
+          <div className="w-full lg:w-[560px] space-y-6 text-left">
+
             {/* <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full bg-orange-100 text-orange-600 text-sm font-medium w-max">
               Beta · Early access
             </div> */}
-<div className="flex items-start gap-4">
-             <span className="mt-1 w-1.5 h-12 rounded-full bg-orange-400 inline-block" aria-hidden />
-              <div>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
-                  BookMyFoodWalk
-                </h2>
-                <div className="mt-1 text-lg md:text-xl font-semibold text-orange-600">
-                  Authentic food walks, crafted locally
-                </div>
-              </div>
-            </div>
+<div className="flex items-start gap-3">
+  <span
+    className="mt-1 w-1.5 h-12 rounded-full bg-orange-400 inline-block flex-shrink-0"
+    aria-hidden
+  />
 
-            <p className="text-gray-600 text-base md:text-lg leading-relaxed max-w-prose">
+  <div>
+    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+      BookMyFoodWalk
+    </h2>
+    <p className="text-orange-600 font-medium">
+      Authentic food walks, crafted locally
+    </p>
+  </div>
+</div>
+
+                {/* <div className="mt-1 text-lg md:text-xl font-semibold text-orange-600">
+                  Authentic food walks, crafted locally
+                </div> */}
+
+            <p className="text-gray-700 text-[15px] md:text-lg leading-7 md:leading-relaxed max-w-prose font-normal">
+
               We’re a small, focused team building a trusted platform that connects travellers with vetted local food guides across India.
               This project is in early-stage — we’re refining routes, training guides and learning from our first walkers. Join early to shape the product and get direct support and perks.
             </p>
@@ -69,12 +82,12 @@ export default function AboutUs() {
                 Join waitlist
               </a>
 
-              <a
-                href="/become-guide"
-                className="inline-block border border-orange-600 text-orange-600 px-4 py-3 rounded-full font-medium hover:bg-orange-50"
-              >
-                Become a guide
-              </a>
+              <button
+  onClick={() => navigate("/become-guide")}
+  className="inline-block border border-orange-600 text-orange-600 px-2 py-3 rounded-full font-medium hover:bg-orange-50"
+>
+  Become a guide
+</button>
 
               {/* <a
                 href="mailto:hello@bookmyfoodwalk.example"
@@ -101,12 +114,12 @@ export default function AboutUs() {
           </div>
 
           {/* Right: Visual card (keep same image size) */}
-          <div className="flex-shrink-0 w-[420px]">
+          <div className="w-full lg:w-[420px]">
             <div className="rounded-xl overflow-hidden shadow-lg ring-1 ring-orange-50 bg-white">
               <div className=" bg-gray-100">
                 {/* <di className="h-80 md:h-96 bg-gray-100"> */}
                 <img
-                  src="/public/foodguide1.jpg"
+                  src="/foodguide1.jpg"
                   alt="Local guide showing street food"
                   // className="w-full h-full object-cover"
                   className="w-full h-auto object-center"
@@ -115,7 +128,8 @@ export default function AboutUs() {
               </div>
 
               <div className="p-6">
-                <p className="text-gray-700 mb-4">
+                <p className="text-gray-700 text-[15px] md:text-lg leading-7 md:leading-relaxed max-w-prose font-normal">
+
                   We work closely with local vendors and guides to create real, sustainable experiences. As an early project, every feedback helps us improve — early members receive direct support and special perks.
                 </p>
 

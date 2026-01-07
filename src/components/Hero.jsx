@@ -27,10 +27,10 @@ const [scrolled, setScrolled] = useState(false);
   ];
 
   return (
-    <header className="relative w-full h-[800px] font-sans" id="home">
+    <header className="relative w-full h-[700px] font-sans" id="home">
       {/* Background Image */}
       <img
-        src="/hero.jpg"
+        src="/hero2.jpg"
         alt="Hero"
         className="w-full h-full object-cover absolute inset-0"
       />
